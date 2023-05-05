@@ -1,4 +1,4 @@
-const esCarga = preguntar('Es carga familiar? (si/no)', validarPreguntaSiNo);
+const esCarga = preguntar('Es carga familiar? (si/no)', validarSiNo);
 
 if (esCarga === 'si') {
   const anoNacimiento = preguntar(
@@ -46,7 +46,7 @@ function obtenerDato(pregunta, funcionDeValidacion) {
   return { advertencia };
 }
 
-function validarPreguntaSiNo(resp) {
+function validarSiNo(resp) {
   if (resp === 'si' || resp === 'no') return { esValida: true };
   return { esValida: false, advertencia: 'Debe responder si o no' };
 }
