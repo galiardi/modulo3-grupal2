@@ -66,6 +66,8 @@ if (esCarga === 'no') {
   );
 }
 
+// Este bloque funciona pero lo hicimos mas simple a continuacion
+/*
 function preguntar(pregunta, funcionDeValidacion) {
   let resultado = {};
   while (!resultado.respuesta) {
@@ -80,6 +82,16 @@ function obtenerDato(pregunta, funcionDeValidacion) {
   const { esValida, advertencia } = funcionDeValidacion(respuesta);
   if (esValida) return { respuesta };
   return { advertencia };
+}
+*/
+
+// Esta fue la primera solucion pero no funcionaba porque faltaba el return en la ultima linea
+function preguntar(pregunta, funcionDeValidacion) {
+  const respuesta = prompt(pregunta).trim().toLocaleLowerCase();
+  const { esValida, advertencia } = funcionDeValidacion(respuesta);
+  if (esValida) return respuesta;
+  alert(advertencia);
+  return preguntar(pregunta, funcionDeValidacion);
 }
 
 function validarSiNo(resp) {
