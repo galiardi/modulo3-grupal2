@@ -14,23 +14,29 @@ if (esCarga === 'si') {
     anoNacimiento,
     mesNacimiento
   );
-  // const objeto =  obtenerEdad(anoNacimiento, mesNacimiento)
-  // const años = objeto.añosPersona
-  // const meses = objeto.mesesPersona
+
   const rangoEtario = obtenerRangoEtario(añosPersona);
+
   let recibeAsignacion;
-  let respuesta;
+
   if (añosPersona < 18) {
     recibeAsignacion = true;
   } else {
-    respuesta = preguntar('Tiene autorización legal? (si/no)', validarSiNo);
-    if (respuesta === 'si') recibeAsignacion = true;
-    if (respuesta === 'no') recibeAsignacion = false;
+    const tieneAutorizacionLegal = preguntar(
+      'Tiene autorización legal? (si/no)',
+      validarSiNo
+    );
+    if (tieneAutorizacionLegal === 'si') recibeAsignacion = true;
+    if (tieneAutorizacionLegal === 'no') recibeAsignacion = false;
   }
-  // alert(`${añosPersona} ${mesesPersona} ${rangoEtario} ${respuesta}`);
+
   alert(
-    `La persona es un ${rangoEtario}, carga familiar con ${añosPersona} años y ${mesesPersona} meses. ${
-      recibeAsignacion ? 'Recibe asignación.' : 'No recibe asignación.'
+    `La persona es un ${rangoEtario}, carga familiar con ${añosPersona} ${
+      añosPersona === 1 ? 'año' : 'años'
+    } y ${mesesPersona} ${mesesPersona === 1 ? 'mes' : 'meses'}. ${
+      recibeAsignacion
+        ? 'Recibe asignación familiar.'
+        : 'No recibe asignación familiar.'
     }`
   );
 }
@@ -49,12 +55,14 @@ if (esCarga === 'no') {
     mesIngreso
   );
 
-  // ...
-  // alert(`${anoIngreso} ${mesIngreso} ${años} ${meses} ${mesesFaltantes}`);
   alert(
-    `La Persona es un trabajador activo con ${años} años y ${meses} meses en la organización y en ${mesesFaltantes} meses cumple ${
-      años + 1
-    } año(s) en la organización.`
+    `La Persona es un trabajador activo con ${años} ${
+      años === 1 ? 'año' : 'años'
+    } y ${meses} ${
+      meses === 1 ? 'mes' : 'meses'
+    } en la organización y en ${mesesFaltantes} ${
+      mesesFaltantes === 1 ? 'mes' : 'meses'
+    } cumple ${años + 1} ${años + 1 === 1 ? 'año' : 'años'} en la organización.`
   );
 }
 
@@ -99,13 +107,26 @@ function obtenerEdad(añoDeNacimiento, mesDeNacimiento) {
   const añoActual = fechaActual.getFullYear();
   const mesActual = fechaActual.getMonth() + 1;
   let añosPersona = añoActual - año;
-  const mesesPersona = mesActual - mes;
+  let mesesPersona = mesActual - mes;
+
   if (mesesPersona < 0) {
     añosPersona -= 1;
+    mesesPersona = 12 + mesesPersona;
   }
 
-  return { añosPersona: añosPersona, mesesPersona: mesesPersona };
+  return { añosPersona, mesesPersona };
 }
+
+function obtenerRangoEtario(añosPersona) {
+  if (añosPersona <= 0) return 'No nato';
+  if (añosPersona < 2) return 'Infante';
+  if (añosPersona < 12) return 'Niño';
+  if (añosPersona < 18) return 'Adolescente';
+  if (añosPersona < 65) return 'Adulto';
+  if (añosPersona < 85) return 'Adulto mayor';
+  return 'Años dorados';
+}
+
 function obtenerTiempoEmpresa(añoIngreso, mesIngreso) {
   const año = parseInt(añoIngreso);
   const mes = parseInt(mesIngreso);
@@ -126,13 +147,4 @@ function obtenerTiempoEmpresa(añoIngreso, mesIngreso) {
   }
 
   return { años, meses, mesesFaltantes };
-}
-function obtenerRangoEtario(añosPersona) {
-  if (añosPersona <= 0) return 'No nato';
-  if (añosPersona < 2) return 'Infante';
-  if (añosPersona < 12) return 'Niño';
-  if (añosPersona < 18) return 'Adolescente';
-  if (añosPersona < 65) return 'Adulto';
-  if (añosPersona < 85) return 'Adulto mayor';
-  return 'Años dorados';
 }
